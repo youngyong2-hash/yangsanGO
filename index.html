@@ -3,42 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1f4d">
 <title>중3이 양산고에 묻는다 | 양산고등학교 입학 Q&amp;A</title>
 <meta name="description" content="양산고등학교 입학 안내 자료에서 궁금한 내용을 찾아보세요. 자료에 없는 내용은 055-384-9503으로 문의해 주세요.">
 <meta property="og:title" content="중3이 양산고에 묻는다">
 <meta property="og:description" content="일과, 교복, 기숙사 등 양산고 입학 궁금증을 자료에서 바로 찾아보세요.">
 <meta property="og:type" content="website">
+<link rel="icon" href="emblem.png">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
-header{background:#0f172a;color:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.hin{max-width:720px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.badge{background:#2563eb;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;margin-right:8px}
-.tel{color:#e2e8f0;background:#1e293b;border:1px solid #334155;padding:6px 12px;border-radius:8px;font-size:12px;text-decoration:none;white-space:nowrap}
+:root{--navy:#0b1f4d;--navy2:#13307a;--navy-soft:#e8edf8;--navy-line:#c9d3ea}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;background:#eef1f7;color:#1b2540;line-height:1.6}
+header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px rgba(5,15,40,.35)}
+.hin{max-width:720px;margin:0 auto;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.emb{width:36px;height:36px;border-radius:50%;background:#fff;object-fit:contain;padding:2px;flex:none}
+.embfb{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--navy);font-weight:800;font-size:12px;display:none;align-items:center;justify-content:center;flex:none}
+.bname{font-size:15px;font-weight:700;white-space:nowrap}.bsub{font-size:11px;color:#b9c6e6;display:block;font-weight:400}
+.tel{color:#fff;background:var(--navy2);border:1px solid #3a5aa8;padding:7px 12px;border-radius:8px;font-size:12px;text-decoration:none;white-space:nowrap}
 main{max-width:720px;margin:0 auto;padding:16px}
-section{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-h1{font-size:20px;margin:0 0 4px}.sub{font-size:13px;color:#64748b;margin:0 0 12px}
-form{display:flex;gap:8px}input{flex:1;min-width:0;padding:13px 14px;font-size:16px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc}input:focus{outline:2px solid #2563eb}
-form button{background:#2563eb;color:#fff;border:0;border-radius:12px;padding:0 18px;font-weight:700;font-size:15px;cursor:pointer}
-.notice{font-size:12px;background:#eff6ff;color:#1e40af;border-radius:8px;padding:8px 12px;margin-bottom:12px}
-.lbl{font-size:12px;color:#64748b;margin:14px 0 4px;font-weight:700}
-.chips{display:flex;flex-wrap:wrap;gap:6px}.chip,.cat{font-size:13px;padding:6px 12px;border:1px solid #e2e8f0;border-radius:999px;background:#f1f5f9;cursor:pointer;font-family:inherit}.chip:hover,.cat:hover{background:#eff6ff;color:#2563eb}.cat.on{background:#2563eb;color:#fff;border-color:#2563eb}
-.btn{background:#2563eb;color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;text-decoration:none;display:inline-block}
-details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;background:#f8fafc;margin-top:8px}details[open]{background:#fff;border-color:#93c5fd}summary{font-weight:700;font-size:14px;cursor:pointer}
-.body{font-size:13.5px;color:#334155;margin-top:8px;border-top:1px solid #f1f5f9;padding-top:8px}.body p{margin:6px 0}.body ul,.body ol{margin:6px 0;padding-left:20px}
-.tw{overflow-x:auto;margin:8px 0}table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{border:1px solid #e2e8f0;padding:6px 8px;text-align:left}th{background:#f1f5f9}
-.meta{font-size:11px;color:#94a3b8;margin-top:8px;border-top:1px solid #e2e8f0;padding-top:6px}.warn{font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:6px 10px;margin-top:6px}
-.card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;margin-top:10px}.ct{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tag{font-size:10px;font-weight:700;color:#2563eb;background:#dbeafe;padding:2px 6px;border-radius:4px}
-.qline{margin:14px 0 0;font-size:14px}.hint{font-size:12px;color:#64748b}
-.fallback{background:#fffbeb;border:1px solid #fde68a;border-radius:16px;padding:18px;text-align:center;margin-top:10px;font-size:13.5px}.fallback div{font-size:24px}
-footer{background:#0f172a;color:#94a3b8;text-align:center;font-size:12px;padding:20px;margin-top:16px}footer b{color:#e2e8f0}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:16px;padding:22px 18px;display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.hero .heroemb{width:64px;height:64px;border-radius:50%;background:#fff;padding:4px;object-fit:contain;flex:none}
+.hero h1{font-size:21px;margin:0 0 4px;line-height:1.3}.hero p{margin:0;font-size:13px;color:#cfd9f2}
+section{background:#fff;border:1px solid var(--navy-line);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(11,31,77,.06)}
+form{display:flex;gap:8px}input{flex:1;min-width:0;padding:13px 14px;font-size:16px;border:1px solid var(--navy-line);border-radius:12px;background:#f7f9fd}input:focus{outline:2px solid var(--navy2)}
+form button{background:var(--navy);color:#fff;border:0;border-radius:12px;padding:0 20px;font-weight:700;font-size:15px;cursor:pointer}form button:hover{background:var(--navy2)}
+.notice{font-size:12px;background:var(--navy-soft);color:var(--navy);border-radius:8px;padding:8px 12px;margin-bottom:12px}
+.lbl{font-size:12px;color:#51608a;margin:14px 0 4px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip,.cat{font-size:13px;padding:6px 12px;border:1px solid var(--navy-line);border-radius:999px;background:#f3f6fc;color:var(--navy);cursor:pointer;font-family:inherit}.chip:hover,.cat:hover{background:var(--navy-soft)}.cat.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;text-decoration:none;display:inline-block}
+details{border:1px solid var(--navy-line);border-radius:12px;padding:12px 14px;background:#f7f9fd;margin-top:8px}details[open]{background:#fff;border-color:var(--navy2)}summary{font-weight:700;font-size:14px;cursor:pointer;color:var(--navy)}
+.body{font-size:13.5px;color:#2b3656;margin-top:8px;border-top:1px solid #e6ebf5;padding-top:8px}.body p{margin:6px 0}.body ul,.body ol{margin:6px 0;padding-left:20px}
+.tw{overflow-x:auto;margin:8px 0}table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{border:1px solid var(--navy-line);padding:6px 8px;text-align:left}th{background:var(--navy-soft);color:var(--navy)}
+.meta{font-size:11px;color:#7885a8;margin-top:8px;border-top:1px solid #e6ebf5;padding-top:6px}.warn{font-size:12px;color:#8a4b00;background:#fff7e0;border:1px solid #f1d58a;border-radius:8px;padding:6px 10px;margin-top:6px}
+.card{background:#f7f9fd;border:1px solid var(--navy-line);border-radius:12px;padding:14px;margin-top:10px}.ct{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.ct strong{color:var(--navy)}.tag{font-size:10px;font-weight:700;color:#fff;background:var(--navy2);padding:2px 7px;border-radius:4px}
+.qline{margin:14px 0 0;font-size:14px}.hint{font-size:12px;color:#51608a}
+.fallback{background:#fff7e0;border:1px solid #f1d58a;border-radius:16px;padding:18px;text-align:center;margin-top:10px;font-size:13.5px}.fallback div{font-size:24px}
+footer{background:var(--navy);color:#b9c6e6;text-align:center;font-size:12px;padding:22px 16px;margin-top:16px}footer b{color:#fff}
+@media(max-width:380px){.bsub{display:none}.hero h1{font-size:18px}}
 </style>
 </head>
 <body>
-<header><div class="hin"><div><span class="badge">양산고</span><b style="font-size:15px">입학 Q&amp;A</b></div><a class="tel" href="tel:055-384-9503">☎ 055-384-9503</a></div></header>
+<header><div class="hin">
+<div class="brand"><img class="emb" src="emblem.png" alt="양산고등학교 교표" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="embfb">양산고</span><span class="bname">양산고등학교<span class="bsub">입학 Q&amp;A</span></span></div>
+<a class="tel" href="tel:055-384-9503">☎ 055-384-9503</a></div></header>
 <main>
+<div class="hero"><img class="heroemb" src="emblem.png" alt="" onerror="this.style.display='none'"><div><h1>중3이 양산고에 묻는다</h1><p>궁금한 내용을 입력하면 학교 안내 자료에서 찾아 그대로 보여드립니다.</p></div></div>
 <section>
-<h1>중3이 양산고에 묻는다</h1>
-<p class="sub">궁금한 내용을 입력하면 학교 안내 자료에서 찾아 그대로 보여드립니다.</p>
 <div class="notice">학교 자료에 있는 내용만 보여드립니다. 이름·연락처 등 개인정보는 입력하지 마세요.</div>
 <form id="form"><input id="q" type="search" maxlength="200" placeholder="예: 교복 어디서 사요? 기숙사 신청 언제?" autocomplete="off"><button type="submit">찾기</button></form>
 <div class="lbl">자주 묻는 질문</div><div class="chips" id="chips"></div>
