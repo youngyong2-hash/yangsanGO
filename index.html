@@ -134,8 +134,7 @@ function search(idx,query){
 const $=id=>document.getElementById(id);
 let CARDS=[],idx=null,feat=[],cats=[],curCat="";
 function warnHtml(year){const m=String(year).match(/\d{4}/);return (m&&parseInt(m[0])<ADMISSION_YEAR)?`<div class="warn">⚠️ ${m[0]}학년도 기준 자료입니다. 최신 내용은 ${SCHOOL}(${PHONE})로 확인해 주세요.</div>`:"";}
-function metaHtml(c){return `<div class="meta">출처: ${esc(c.source)}${c.year?` (${esc(c.year)})`:""}</div>`+warnHtml(c.year);}
-function cardHtml(c){return `<article class="card"><div class="ct"><span class="tag">${esc(c.category)}</span><strong>${esc(c.title)}</strong></div><div class="body">${c.html}</div>${metaHtml(c)}</article>`;}
+function metaHtml(c){return "";}function cardHtml(c){return `<article class="card"><div class="ct"><span class="tag">${esc(c.category)}</span><strong>${esc(c.title)}</strong></div><div class="body">${c.html}</div>${metaHtml(c)}</article>`;}
 function fallbackHtml(){return `<div class="fallback"><div>☎️</div><p>죄송합니다. 제공된 학교 자료에서 해당 내용을 찾을 수 없습니다.<br>해당 내용은 <b>${SCHOOL}(${PHONE})</b>로 문의해 주세요.</p><a class="btn" href="tel:${PHONE}">☎ ${PHONE} 전화 문의</a></div>`;}
 function markCat(mode){for(const x of $("cats").children)x.classList.toggle("on",(mode==="cat"&&x.dataset.c===curCat)||(mode==="all"&&x.dataset.c==="ALL"));}
 function ask(q){
