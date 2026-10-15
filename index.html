@@ -82,8 +82,8 @@ footer{-webkit-text-fill-color:inherit}
 const SCHOOL="양산고등학교", PHONE="055-384-9503", ADMISSION_YEAR=2027;
 const CSV_URL="cards.csv";
 const REQUIRED=["category","title","questions","content","source","year","featured"];
-const ICONS={"일과시간":"⏰","교육과정":"📚","학교생활":"🏫","교복·체육복":"👔","기숙사":"🏢","학교현황":"📊","도서관":"📖","학부모회":"🤝","학생회":"🎤","동아리":"🎸","교기":"🥋","시설":"⚽","전형일정":"📅","입학":"📅"};
-const MIN_SCORE=0.18, TOP_K=3;
+const ICONS={"일과시간":"⏰","교육과정":"📚","학교생활":"🏫","교복·체육복":"👔","교복":"👔","체육복":"👔","기숙사":"🏢","학교현황":"📊","도서관":"📖","학부모회":"🤝","학생회":"🎤","동아리":"🎸","교기":"🥋","시설":"⚽","전형일정":"📅","입학":"📅"};
+const MIN_SCORE=0.18, TOP_K=5;
 const STOP=["있나요","있어요","인가요","입니까","어떻게","어떤","알려주세요","알려줘","나오나요","나와요","해요","하나요","되나요","무엇","뭐예요","있습니까","있는지","언제","어디","돼요","되요","가능해요","가능한가요","여도","해도"];
 function parseCSV(t){
   t=t.replace(/^\uFEFF/,"");const rows=[];let row=[],f="",q=false;
@@ -123,14 +123,17 @@ function buildIndex(cards){
   const df=new Map();docs.forEach(d=>d.forEach((_,g)=>df.set(g,(df.get(g)||0)+1)));
   const N=docs.length, idf=new Map();df.forEach((v,g)=>idf.set(g,Math.log((1+N)/(1+v))+1));
   const vec=m=>{const v=new Map();let sq=0;m.forEach((tf,g)=>{if(!idf.has(g))return;const w=(1+Math.log(tf))*idf.get(g);v.set(g,w);sq+=w*w;});const n=Math.sqrt(sq)||1;v.forEach((w,g)=>v.set(g,w/n));return v;};
-  return {vecs:docs.map(vec),vec,qn:cards.map(c=>c.questions.map(norm).filter(Boolean))};
+  return {vecs:docs.map(vec),vec,qn:cards.map(c=>c.questions.map(norm).filter(Boolean)),tn:cards.map(c=>norm(c.title+" "+c.content))};
 }
 function search(idx,query){
   const q=norm(query);if(!q)return [];
   const qv=idx.vec(grams(q));
   const sc=idx.vecs.map((dv,i)=>{let s=0;qv.forEach((w,g)=>{const d=dv.get(g);if(d)s+=w*d;});
-    if(idx.qn[i].some(x=>q.includes(x)||x.includes(q)))s+=0.3;return [i,s];});
-  return sc.filter(x=>x[1]>=MIN_SCORE).sort((a,b)=>b[1]-a[1]).slice(0,TOP_K).map(x=>x[0]);
+    if(idx.qn[i].some(x=>q.includes(x)||x.includes(q)))s+=0.3;
+    if(q.length>=2&&idx.tn[i].includes(q))s+=0.25;return [i,s];});
+  const ok=sc.filter(x=>x[1]>=MIN_SCORE).sort((a,b)=>b[1]-a[1]);
+  if(!ok.length)return [];
+  return ok.filter(x=>x[1]>=ok[0][1]*0.5).slice(0,TOP_K).map(x=>x[0]);
 }
 
 
