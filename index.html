@@ -171,10 +171,10 @@ async function init(){
     if(miss.length)throw new Error("cards.csv에 필요한 열이 없습니다: "+miss.join(", "));
     CARDS=rows.slice(1).map(r=>{const o={};head.forEach((h,i)=>o[h]=(r[i]||"").trim());
       o.questions=o.questions.split("|").map(x=>x.trim()).filter(Boolean);o.html=renderMd(o.content);
-      o.featured=/^(y|yes|1|true|o)$/i.test(o.featured);return o;}).filter(c=>c.title&&c.content);
+      const fv=String(o.featured).trim();o.frank=/^\d+$/.test(fv)?parseInt(fv,10):(/^(y|yes|true|o)$/i.test(fv)?999:0);o.featured=o.frank>0;return o;}).filter(c=>c.title&&c.content);
     if(!CARDS.length)throw new Error("등록된 자료가 없습니다.");
   }catch(e){showError(e.message||"자료를 불러오지 못했습니다.");return;}
-  idx=buildIndex(CARDS);feat=CARDS.filter(c=>c.featured);cats=[...new Set(CARDS.map(c=>c.category))].sort((a,b)=>{const i=CAT_ORDER.indexOf(a),j=CAT_ORDER.indexOf(b);return (i<0?999:i)-(j<0?999:j);});
+  idx=buildIndex(CARDS);feat=CARDS.filter(c=>c.featured).sort((a,b)=>a.frank-b.frank);cats=[...new Set(CARDS.map(c=>c.category))].sort((a,b)=>{const i=CAT_ORDER.indexOf(a),j=CAT_ORDER.indexOf(b);return (i<0?999:i)-(j<0?999:j);});
   $("chips").innerHTML=feat.map(c=>`<button type="button" class="chip" data-q="${esc(c.questions[0]||c.title)}">${esc(c.questions[0]||c.title)}</button>`).join("");
   $("chips").onclick=e=>{const b=e.target.closest(".chip");if(b){$("q").value=b.dataset.q;ask(b.dataset.q);}};
   $("cats").innerHTML=`<button type="button" class="cat" data-c="ALL"><span class="ci">📋</span><span>전체</span></button>`+cats.map(c=>`<button type="button" class="cat" data-c="${esc(c)}"><span class="ci">${ICONS[c]||"📌"}</span><span>${esc(c)}</span></button>`).join("");
