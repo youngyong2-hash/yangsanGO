@@ -44,6 +44,7 @@ summary{font-weight:800;font-size:15px;cursor:pointer;color:var(--navy2)}
 .body p{margin:6px 0}.body ul,.body ol{margin:6px 0;padding-left:20px}.body li{margin:3px 0}
 .tw{overflow-x:auto;margin:8px 0}
 .ph{margin:12px 0}.ph img{width:100%;display:block;border-radius:12px;border:1px solid var(--line)}.ph figcaption{font-size:12.5px;color:#51608a;text-align:center;margin-top:4px}
+.fl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin:10px 0;border:1px solid #d9dee5;border-radius:12px;background:#f7f9fb}.fl span{flex:1 1 100%;font-weight:600}.fl a{padding:6px 14px;border-radius:999px;background:#1f5fbf;color:#fff;text-decoration:none;font-size:14px}
 table{border-collapse:collapse;width:100%;font-size:13px}
 th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}
 th{background:var(--soft);color:var(--navy2)}
@@ -104,6 +105,8 @@ function renderMd(text){
   for(const raw of String(text).split(/\r?\n/)){
     const l=raw.trimEnd();
     if(!l.trim()){close();continue;}
+    const fl=l.match(/^📎\[(.*?)\]\((files\/[\w.\-]+\.pdf)\)$/);
+if(fl){close();out.push(`<div class="fl"><span>📄 ${esc(fl[1])}</span><a href="${esc(fl[2])}" target="_blank" rel="noopener">보기</a><a href="${esc(fl[2])}" download>다운로드</a></div>`);continue;}
     const im=l.match(/^!\[(.*?)\]\((images\/[\w.\-]+)\)$/);
 if(im){close();out.push(`<figure class="ph"><a href="${esc(im[2])}" target="_blank" rel="noopener"><img src="${esc(im[2])}" alt="${esc(im[1])}" loading="lazy"></a><figcaption>${esc(im[1])}</figcaption></figure>`);continue;}
     if(l.startsWith("|")){
