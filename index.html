@@ -72,7 +72,7 @@ footer{-webkit-text-fill-color:inherit}
 <div class="hero"><img src="emblem.png" alt="양산고등학교 교표" onerror="this.style.display='none'"><div><h1>중3이 양산고에 묻는다</h1><p>궁금한 내용을 키워드 위주로 검색해보세요.</p></div></div>
 <section>
 <form id="form"><input id="q" type="search" maxlength="200" placeholder="키워드를 입력하세요 (예: 기숙사, 교복)" autocomplete="off"><button type="submit">검색</button></form>
-<div class="notice" style="margin:10px 0 0">학교의 공식 자료만 안내드려요. 이름·연락처 같은 개인정보는 입력하지 마세요.</div>
+<div class="notice" style="margin:10px 0 0">이름·연락처 같은 개인정보는 입력하지 마세요.</div>
 <div class="lbl">🔥 많이 찾는 질문</div><div class="chips" id="chips"></div>
 <div class="lbl">📂 분야별로 보기</div><div class="tiles" id="cats"></div>
 <div id="result"></div>
@@ -85,7 +85,7 @@ const SCHOOL="양산고등학교", PHONE="055-384-9503", ADMISSION_YEAR=2027;
 const CSV_URL="cards.csv";
 const REQUIRED=["category","title","questions","content","source","year","featured"];
 const ICONS={"기숙사":"🏢","도서관":"📖","교육과정":"📚","생활규정":"🏫","교복·체육복":"👔","교복":"👔","체육복":"👔","학교현황":"📊","학부모회":"🤝","학생회":"🎤","동아리":"🎸","교기":"🥋","시설":"⚽","전형일정":"📅","입학":"📅","일과시간":"⏰",};
-const CAT_ORDER=["기숙사","교복","도서관","생활규정","교육과정","일과시간"];  
+const CAT_ORDER=["기숙사","교육과정","교복","생활규정","도서관","일과시간"];  
 const MIN_SCORE=0.18, TOP_K=5;
 const STOP=["있나요","있어요","인가요","입니까","어떻게","어떤","알려주세요","알려줘","나오나요","나와요","해요","하나요","되나요","무엇","뭐예요","있습니까","있는지","언제","어디","돼요","되요","가능해요","가능한가요","여도","해도"];
 function parseCSV(t){
