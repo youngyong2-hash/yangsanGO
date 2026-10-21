@@ -116,6 +116,8 @@ else box=`<video class="vf" src="${esc(s)}" controls playsinline preload="metada
 out.push(`<figure class="ph">${box}<figcaption>${tt}</figcaption></figure>`);continue;} 
     const im=l.match(/^!\[(.*?)\]\((images\/[\w.\-]+)\)$/);
 if(im){close();out.push(`<figure class="ph"><a href="${esc(im[2])}" target="_blank" rel="noopener"><img src="${esc(im[2])}" alt="${esc(im[1])}" loading="lazy"></a><figcaption>${esc(im[1])}</figcaption></figure>`);continue;}
+    const link=l.trim().match(/^\[([^\]]+)\]\((https?:\/\/[^\s<>]+)\)$/i);
+    if(link){close();out.push(`<p class="external-link"><a class="btn" href="${esc(link[2])}" target="_blank" rel="noopener noreferrer">${esc(link[1])} ↗</a></p>`);continue;}
     if(l.startsWith("|")){
       const cells=l.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(c=>c.trim());
       if(cells.every(c=>/^:?-{3,}:?$/.test(c)))continue;
