@@ -63,6 +63,19 @@ footer{background:var(--navy);color:#aebbe0;text-align:center;font-size:12.5px;p
 footer b{color:#fff;font-size:14px}
 footer a{color:#fff;font-weight:700;text-decoration:underline}
 footer{-webkit-text-fill-color:inherit}
+
+#modal{position:fixed;inset:0;z-index:20;display:none;align-items:flex-end;justify-content:center;background:rgba(6,18,50,.62)}
+#modal.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:720px;max-height:88vh;max-height:88dvh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -6px 30px rgba(0,0,0,.35);animation:sup .22s ease-out}
+@keyframes sup{from{transform:translateY(48px);opacity:0}to{transform:none;opacity:1}}
+.sh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 14px 12px 18px;border-bottom:1px solid #e3e9f6;flex:none}
+.sh b{font-size:17px;color:var(--navy2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xb{flex:none;width:42px;height:42px;border:0;border-radius:50%;background:var(--soft);color:var(--navy2);font-size:20px;font-weight:800;cursor:pointer}
+.xb:hover,.xb:active{background:var(--line)}
+#result{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 16px 18px;flex:1 1 auto}
+.sf{flex:none;padding:10px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e3e9f6;text-align:center}
+.sf .btn{width:100%;cursor:pointer;padding:13px 18px;font-size:15px}
+@media(min-width:768px){#modal{align-items:center}.sheet{border-radius:22px;max-height:80vh}}
 @media(max-width:380px){.tiles{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:20px}header h2{font-size:16px}}
 </style>
 </head>
@@ -75,9 +88,9 @@ footer{-webkit-text-fill-color:inherit}
 <div class="notice" style="margin:10px 0 0">이름·연락처 같은 개인정보는 입력하지 마세요.</div>
 <div class="lbl">🔥 많이 찾는 질문</div><div class="chips" id="chips"></div>
 <div class="lbl">📂 분야별로 보기</div><div class="tiles" id="cats"></div>
-<div id="result"></div>
 </section>
 </main>
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="sheet"><div class="sh"><b id="mt">검색 결과</b><button type="button" class="xb" id="xb" aria-label="닫기">✕</button></div><div id="result"></div><div class="sf"><button type="button" class="btn" id="xb2">닫기</button></div></div></div>
 <footer><b>양산고등학교 교무기획부</b><br>경남 양산시 호국학도병길 2 (북부동)<br>문의: <a href="tel:055-384-9503">055-384-9503</a><br><br></footer>
 <script>
 
@@ -164,6 +177,17 @@ function warnHtml(year){const m=String(year).match(/\d{4}/);return (m&&parseInt(
 function metaHtml(c){return "";}function cardHtml(c){return `<article class="card"><div class="ct"><span class="tag">${esc(c.category)}</span><strong>${esc(c.title)}</strong></div><div class="body">${c.html}</div>${metaHtml(c)}</article>`;}
 function fallbackHtml(){return `<div class="fallback"><div>☎️</div><p>죄송합니다. 제공된 학교 자료에서 해당 내용을 찾을 수 없습니다.<br>해당 내용은 <b>${SCHOOL}(${PHONE})</b>로 문의해 주세요.</p><a class="btn" href="tel:${PHONE}">☎ ${PHONE} 전화 문의</a></div>`;}
 function markCat(mode){for(const x of $("cats").children)x.classList.toggle("on",(mode==="cat"&&x.dataset.c===curCat)||(mode==="all"&&x.dataset.c==="ALL"));}
+function openModal(title){
+  const m=$("modal");$("mt").textContent=title||"검색 결과";
+  if(!m.classList.contains("on")){m.classList.add("on");document.body.style.overflow="hidden";history.pushState({m:1},"");}
+  $("result").scrollTop=0;$("xb").focus({preventScroll:true});
+}
+function closeModal(fromPop){
+  const m=$("modal");if(!m.classList.contains("on"))return;
+  m.classList.remove("on");document.body.style.overflow="";
+  $("result").dataset.mode="";curCat="";markCat("");
+  if(!fromPop&&history.state&&history.state.m)history.back();
+}
 function ask(q){
   const out=$("result");q=q.trim();
   if(!q){if(out.dataset.mode==="search"){out.innerHTML="";out.dataset.mode="";}return;}
@@ -171,17 +195,20 @@ function ask(q){
   const hits=search(idx,q);
   let h=`<p class="qline">🔎 <b id="qtext"></b> 검색 결과</p>`;
   h+=hits.length?hits.map(i=>cardHtml(CARDS[i])).join("")+`<p class="hint">찾은 내용이 원하는 답이 아니면 ${SCHOOL}(${PHONE})로 문의해 주세요.</p>`:fallbackHtml();
-  out.innerHTML=h;$("qtext").textContent=q;
+  out.innerHTML=h;$("qtext").textContent=q;openModal("검색 결과");
 }
 function showCat(c){
   curCat=c;$("q").value="";$("result").dataset.mode=c?"cat":"all";markCat(c?"cat":"all");
   const list=CARDS.filter(x=>!c||x.category===c);
-  $("result").innerHTML=`<p class="qline"><b>${c?esc(c):"전체"}</b> 자료 ${list.length}건</p>`+list.map(x=>`<details><summary>${esc(x.title)}</summary><div class="body">${x.html}</div>${metaHtml(x)}</details>`).join("");
+  $("result").innerHTML=`<p class="qline"><b>${c?esc(c):"전체"}</b> 자료 ${list.length}건</p>`+list.map(x=>`<details><summary>${esc(x.title)}</summary><div class="body">${x.html}</div>${metaHtml(x)}</details>`).join("");openModal(c||"전체");
 }
 function showError(msg){$("result").innerHTML=`<div class="fallback"><div>⚠️</div><p>${esc(msg)}<br>잠시 후 다시 시도하거나 <b>${SCHOOL}(${PHONE})</b>로 문의해 주세요.</p><a class="btn" href="tel:${PHONE}">☎ ${PHONE} 전화 문의</a></div>`;}
 async function init(){
   $("form").addEventListener("submit",e=>{e.preventDefault();if(idx)ask($("q").value);});
-  $("q").addEventListener("input",()=>{if(idx)ask($("q").value);});
+  $("xb").onclick=()=>closeModal();$("xb2").onclick=()=>closeModal();
+  $("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
+  window.addEventListener("popstate",()=>closeModal(true));
   try{
     const res=await fetch(CSV_URL,{cache:"no-cache"});
     if(!res.ok)throw new Error("cards.csv를 불러오지 못했습니다.");
