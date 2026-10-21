@@ -84,7 +84,7 @@ footer{-webkit-text-fill-color:inherit}
 const SCHOOL="양산고등학교", PHONE="055-384-9503", ADMISSION_YEAR=2027;
 const CSV_URL="cards.csv";
 const REQUIRED=["category","title","questions","content","source","year","featured"];
-const ICONS={"기숙사":"🏢","내신변화":"📈","대입현황":"🎓","도서관":"📖","교육과정":"📚","생활규정":"🏫","교복·체육복":"👔","교복":"👔","체육복":"👔","학교현황":"📊","학부모회":"🤝","학생회":"🎤","동아리":"🎸","교기(태권도)":"🥋","시설":"⚽","전형일정":"📅","입학":"📅","일과시간":"⏰",};
+const ICONS={"기숙사":"🏢","내신변화":"📈","대입현황":"🎓","도서관":"📖","교육과정":"📚","생활규정":"🏫","교복·체육복":"👔","교복":"👔","체육복":"👔","학교현황":"📊","학부모회":"🤝","학생회":"🎤","동아리":"🎸","교기":"🥋","시설":"⚽","전형일정":"📅","입학":"📅","일과시간":"⏰",};
 const CAT_ORDER=["내신변화","기숙사","교육과정","교복","생활규정","대입현황","도서관","일과시간"];  
 const MIN_SCORE=0.18, TOP_K=5;
 const STOP=["있나요","있어요","인가요","입니까","어떻게","어떤","알려주세요","알려줘","나오나요","나와요","해요","하나요","되나요","무엇","뭐예요","있습니까","있는지","언제","어디","돼요","되요","가능해요","가능한가요","여도","해도"];
@@ -101,7 +101,7 @@ function parseCSV(t){
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function renderMd(text){
-  const out=[];let mode=null;
+  const out=[];let mode=null,aligns=[],headCells=[],headIdx=0;
   const close=()=>{if(mode==="ul")out.push("</ul>");else if(mode==="ol")out.push("</ol>");else if(mode==="table")out.push("</tbody></table></div>");mode=null;};
   for(const raw of String(text).split(/\r?\n/)){
     const l=raw.trimEnd();
@@ -123,9 +123,14 @@ out.push(`<figure class="ph">${box}<figcaption>${tt}</figcaption></figure>`);con
 if(im){close();out.push(`<figure class="ph"><a href="${esc(im[2])}" target="_blank" rel="noopener"><img src="${esc(im[2])}" alt="${esc(im[1])}" loading="lazy"></a><figcaption>${esc(im[1])}</figcaption></figure>`);continue;}
     if(l.startsWith("|")){
       const cells=l.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(c=>c.trim());
-      if(cells.every(c=>/^:?-{3,}:?$/.test(c)))continue;
-      if(mode!=="table"){close();out.push('<div class="tw"><table><thead><tr>'+cells.map(c=>`<th>${esc(c)}</th>`).join("")+"</tr></thead><tbody>");mode="table";}
-      else out.push("<tr>"+cells.map(c=>`<td>${esc(c)}</td>`).join("")+"</tr>");
+      const AL={l:"left",c:"center",r:"right"};
+      const cellH=(tag,c,k)=>`<${tag}${aligns[k]?` style="text-align:${aligns[k]}"`:""}>${esc(c)}</${tag}>`;
+      if(cells.every(c=>/^:?-{3,}:?$/.test(c))){
+        if(mode==="table"){aligns=cells.map(c=>/^:.*:$/.test(c)?"center":/:$/.test(c)?"right":/^:/.test(c)?"left":"");
+          out[headIdx]='<div class="tw"><table><thead><tr>'+headCells.map((c,k)=>cellH("th",c,k)).join("")+"</tr></thead><tbody>";}
+        continue;}
+      if(mode!=="table"){close();aligns=[];headCells=cells;headIdx=out.length;out.push('<div class="tw"><table><thead><tr>'+cells.map(c=>`<th>${esc(c)}</th>`).join("")+"</tr></thead><tbody>");mode="table";}
+      else out.push("<tr>"+cells.map((c,k)=>cellH("td",c,k)).join("")+"</tr>");
     }else if(/^[-*] /.test(l)){if(mode!=="ul"){close();out.push("<ul>");mode="ul";}out.push(`<li>${esc(l.slice(2))}</li>`);}
     else if(/^\d+\. /.test(l)){if(mode!=="ol"){close();out.push("<ol>");mode="ol";}out.push(`<li>${esc(l.replace(/^\d+\. /,""))}</li>`);}
     else{close();out.push(`<p>${esc(l)}</p>`);}
