@@ -200,9 +200,9 @@ function ask(q){
 function showCat(c){
   curCat=c;$("q").value="";$("result").dataset.mode=c?"cat":"all";markCat(c?"cat":"all");
   const list=CARDS.filter(x=>!c||x.category===c);
-  $("result").innerHTML=`<p class="qline"><b>${c?esc(c):"전체"}</b> 자료 ${list.length}건</p>`+list.map(x=>`<details><summary>${esc(x.title)}</summary><div class="body">${x.html}</div>${metaHtml(x)}</details>`).join("");openModal(c||"전체");
+  $("result").innerHTML=`<p class="qline"><b>${c?esc(c):"전체"}</b> 자료 ${list.length}건</p>`+list.map((x,i)=>`<details${i===0?" open":""}><summary>${esc(x.title)}</summary><div class="body">${x.html}</div>${metaHtml(x)}</details>`).join("");openModal(c||"전체");
 }
-function showError(msg){$("result").innerHTML=`<div class="fallback"><div>⚠️</div><p>${esc(msg)}<br>잠시 후 다시 시도하거나 <b>${SCHOOL}(${PHONE})</b>로 문의해 주세요.</p><a class="btn" href="tel:${PHONE}">☎ ${PHONE} 전화 문의</a></div>`;}
+function showError(msg){$("result").innerHTML=`<div class="fallback"><div>⚠️</div><p>${esc(msg)}<br>잠시 후 다시 시도하거나 <b>${SCHOOL}(${PHONE})</b>로 문의해 주세요.</p><a class="btn" href="tel:${PHONE}">☎ ${PHONE} 전화 문의</a></div>`;openModal("안내");}
 async function init(){
   $("form").addEventListener("submit",e=>{e.preventDefault();if(idx)ask($("q").value);});
   $("xb").onclick=()=>closeModal();$("xb2").onclick=()=>closeModal();
@@ -218,7 +218,7 @@ async function init(){
     if(miss.length)throw new Error("cards.csv에 필요한 열이 없습니다: "+miss.join(", "));
     CARDS=rows.slice(1).map(r=>{const o={};head.forEach((h,i)=>o[h]=(r[i]||"").trim());
       o.questions=o.questions.split("|").map(x=>x.trim()).filter(Boolean);o.html=renderMd(o.content);
-      const fv=String(o.featured).trim();o.frank=/^\d+$/.test(fv)?parseInt(fv,10):(/^(y|yes|true|o)$/i.test(fv)?999:0);o.featured=o.frank>0;return o;}).filter(c=>c.title&&c.content);
+      const fv=String(o.featured).trim();o.frank=/^\d+$/.test(fv)?parseInt(fv,10):(/^(y|yes|true|o)$/i.test(fv)?999:0);o.featured=o.frank>0;return o;}).filter(c=>c.title&&c.content&&!/^\s*(#|＃|\/\/)/.test(c.category));
     if(!CARDS.length)throw new Error("등록된 자료가 없습니다.");
   }catch(e){showError(e.message||"자료를 불러오지 못했습니다.");return;}
   idx=buildIndex(CARDS);feat=CARDS.filter(c=>c.featured).sort((a,b)=>a.frank-b.frank);cats=[...new Set(CARDS.map(c=>c.category))].sort((a,b)=>{const i=CAT_ORDER.indexOf(a),j=CAT_ORDER.indexOf(b);return (i<0?999:i)-(j<0?999:j);});
