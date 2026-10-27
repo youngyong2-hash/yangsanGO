@@ -96,7 +96,7 @@ footer{-webkit-text-fill-color:inherit}
   <div id="visit-counter"
      style="margin-top:14px;font-size:12px;color:#aebbe0;"
      aria-live="polite">
-  누적 조회 <span id="visit-total">확인 중…</span>
+  Total views <span id="visit-total">확인 중…</span>
 </div>
 </footer>
 <script>
@@ -272,7 +272,7 @@ init();
       throw new Error("조회 수 데이터가 없습니다.");
     }
 
-    total.textContent = String(data.count) + "회";
+    total.textContent = String(data.count) ;
   } catch (error) {
     total.textContent = "집계 준비 중";
     console.warn("GoatCounter:", error.message);
