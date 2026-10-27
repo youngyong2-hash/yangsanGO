@@ -64,6 +64,12 @@ footer b{color:#fff;font-size:14px}
 footer a{color:#fff;font-weight:700;text-decoration:underline}
 footer{-webkit-text-fill-color:inherit}
 
+  <div id="visit-counter"
+     style="margin-top:14px;font-size:12px;color:#aebbe0;"
+     aria-live="polite">
+  누적 조회 <span id="visit-total">확인 중…</span>
+</div>
+
 #modal{position:fixed;inset:0;z-index:20;display:none;align-items:flex-end;justify-content:center;background:rgba(6,18,50,.62)}
 #modal.on{display:flex}
 .sheet{background:#fff;width:100%;max-width:720px;max-height:88vh;max-height:88dvh;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -6px 30px rgba(0,0,0,.35);animation:sup .22s ease-out}
@@ -79,6 +85,49 @@ footer{-webkit-text-fill-color:inherit}
 @media(max-width:380px){.tiles{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:20px}header h2{font-size:16px}}
 </style>
 </head>
+
+  <!-- 페이지 조회 집계 -->
+<script
+  data-goatcounter="https://youngyong2.goatcounter.com/count"
+  async
+  src="https://gc.zgo.at/count.js">
+</script>
+
+<!-- 사이트 전체 누적 조회 표시 -->
+<script>
+(async function () {
+  const total = document.getElementById("visit-total");
+  if (!total) return;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const response = await fetch(
+      "https://youngyong2.goatcounter.com/counter/TOTAL.json",
+      { signal: controller.signal }
+    );
+
+    if (!response.ok) {
+      throw new Error("조회 수를 불러오지 못했습니다.");
+    }
+
+    const data = await response.json();
+
+    if (data.count === undefined || data.count === null) {
+      throw new Error("조회 수 데이터가 없습니다.");
+    }
+
+    total.textContent = String(data.count) + "회";
+  } catch (error) {
+    total.textContent = "집계 준비 중";
+    console.warn("GoatCounter:", error.message);
+  } finally {
+    clearTimeout(timeout);
+  }
+})();
+</script>
+  
 <body>
 <header><h2>양산고등학교 입학 Q&amp;A</h2></header>
 <main>
