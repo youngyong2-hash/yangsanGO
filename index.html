@@ -77,12 +77,85 @@ footer{-webkit-text-fill-color:inherit}
 .sf .btn{width:100%;cursor:pointer;padding:13px 18px;font-size:15px}
 @media(min-width:768px){#modal{align-items:center}.sheet{border-radius:22px;max-height:80vh}}
 @media(max-width:380px){.tiles{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:20px}header h2{font-size:16px}}
+
+.instagram-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  background: linear-gradient(115deg, #6339b4, #b32b80, #b9364c);
+  color: #fff;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+}
+
+.instagram-banner:hover {
+  filter: brightness(1.1);
+}
+
+.instagram-banner:focus-visible {
+  outline: 3px solid #ffdc32;
+  outline-offset: 3px;
+}
+
+.instagram-icon {
+  flex: none;
+  font-size: 28px;
+}
+
+.instagram-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.instagram-text strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.instagram-text > span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.instagram-arrow {
+  flex: none;
+  font-size: 25px;
+  font-weight: 800;
+}
 </style>
 </head>
 <body>
 <header><h2>양산고등학교 입학 Q&amp;A</h2></header>
 <main>
 <div class="hero"><img src="emblem.png" alt="양산고등학교 교표" onerror="this.style.display='none'"><div><h1>중3이 양산고에 묻는다</h1><p>궁금한 내용을 키워드 위주로 검색해보세요.</p></div></div>
+
+<a
+  class="instagram-banner"
+  href="https://www.instagram.com/2026yshs/"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="양산고 인스타그램 새 탭에서 열기"
+>
+  <span class="instagram-icon" aria-hidden="true">📸</span>
+
+  <span class="instagram-text">
+    <strong>사진과 영상으로 만나는 양산고</strong>
+    <span>인스타그램 @2026yshs</span>
+  </span>
+
+  <span class="instagram-arrow" aria-hidden="true">↗</span>
+</a>
+
+<section>
+  
 <section>
 <form id="form"><input id="q" type="search" maxlength="200" placeholder="키워드를 입력하세요 (예: 기숙사, 교복)" autocomplete="off"><button type="submit">검색</button></form>
 <div class="notice" style="margin:10px 0 0">이름·연락처 같은 개인정보는 입력하지 마세요.</div>
